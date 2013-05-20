@@ -1,0 +1,20 @@
+{
+    "name": "anvil/emulators",
+    "description": "A cross-platform emulator library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Loic Sharma",
+            "email": "sharma.loic@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/database": "4.0.*-dev"
+    },
+    "autoload": {
+        "psr-0": {
+            "Anvil\\Emulators": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
