@@ -14,6 +14,10 @@ Installing this package is simple! First, you'll need to add the package to the 
 }
 ``` 
 
+## Features
+
+Emulator is an emulator-agnostic library. For more information, please read the documentation.
+
 ## Copyright and License
 
 Emulator was written by the Webcraft CMS team. Emulator is released under the 2-clause BSD License. See the LICENSE file for details.
