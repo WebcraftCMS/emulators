@@ -1,11 +1,18 @@
 <?php namespace Anvil\Emulators\Trinity\Cataclysm\Model;
 
-use Illuminate\Database\Eloquent\Model;
+use Anvil\Emulators\Model\Model;
 use Illuminate\Database\Eloquent\Builder as Query;
 
 use Anvil\Emulators\Model\CharacterInterface;
 
 class Character extends Model implements CharacterInterface {
+
+	/**
+	 * The database that the model uses.
+	 *
+	 * @var string
+	 */
+	public $database = 'characters';
 
 	/**
 	 * The table associated with the model.
@@ -293,14 +300,9 @@ class Character extends Model implements CharacterInterface {
 		// now.
 		else
 		{
-			// Let's grab the realm name off of the current connection.
-			// We need to set the current realm's name to the guild model
-			// so that it knows what connection to use.
-			$realm = rtrim($this->connection, '.characters');
-			
 			$guild = new Guild;
 
-			return $guild->setRealm($realm)
+			return $guild->setRealm($this->getRealm())
 						->where('guildid', $member->guildid)
 						->first();
 		}

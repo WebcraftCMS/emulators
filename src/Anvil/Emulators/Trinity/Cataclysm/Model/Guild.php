@@ -1,8 +1,15 @@
 <?php namespace Anvil\Emulators\Trinity\Cataclysm\Model;
 
-use Illuminate\Database\Eloquent\Model;
+use Anvil\Emulators\Model\Model;
 
 class Guild extends Model {
+
+	/*
+	 * The database that the model uses.
+	 *
+	 * @var string
+	 */
+	public $database = 'characters';
 
 	/**
 	 * The table associated with the model.
@@ -24,19 +31,6 @@ class Guild extends Model {
 	 * @var bool
 	 */
 	public $timestamps = false;
-
-	/**
-	 * Set the realm for the next query.
-	 *
-	 * @param  string  $realm
-	 * @return \Anvil\Emulators\Trinity\Cataclysm\Model\Guild
-	 */
-	public function setRealm($realm)
-	{
-		$this->connection = $realm.'.characters';
-
-		return $this;
-	}
 
 	/**
 	 * Select a guild by ID.
@@ -93,14 +87,9 @@ class Guild extends Model {
 	 */
 	public function getLeaderAttribute()
 	{
-		// Let's grab the realm name off of the current connection.
-		// We need to set the current realm's name to the character model
-		// so that it knows what connection to use.
-		$realm = rtrim($this->connection, '.characters');
-
 		$character = new Character;
 
-		return $character->setRealm($realm)
+		return $character->setRealm($this->getRealm())
 					->where('guid', $this->attributes['leaderguid'])
 					->first();
 	}
@@ -120,7 +109,7 @@ class Guild extends Model {
 
 		$characters = new Character;
 
-		return $character->setRealm($realm)
+		return $character->setRealm($this->getRealm())
 				->whereIn('guid', array_pluck($characters, 'guid'))
 				->get();
 	}
