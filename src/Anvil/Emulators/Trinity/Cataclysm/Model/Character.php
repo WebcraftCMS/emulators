@@ -53,19 +53,6 @@ class Character extends Model implements CharacterInterface {
 	}
 
 	/**
-	 * Set the realm for the next query.
-	 *
-	 * @param  string  $realm
-	 * @return \Anvil\Emulators\Trinity\Cataclysm\Model\Character
-	 */
-	public function setRealm($realm)
-	{
-		$this->connection = $realm.'.characters';
-
-		return $this;
-	}
-
-	/**
 	 * Select a character by ID.
 	 *
 	 * @param  \Illuminate\Database\Eloquent\Builder  $query

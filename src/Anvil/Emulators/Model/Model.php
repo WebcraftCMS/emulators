@@ -38,7 +38,7 @@ class Model extends IlluminateModel {
 	 */
 	public function getRealm()
 	{
-		return rtrim($this->connection, $this->database);
+		return rtrim($this->connection, $this->database.'.');
 	}
 
 }
