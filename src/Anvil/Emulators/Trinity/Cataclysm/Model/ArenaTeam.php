@@ -27,6 +27,15 @@ class ArenaTeam extends Model {
 	protected $primaryKey = 'arenaTeamId';
 
 	/**
+	 * The aliases for attributes.
+	 *
+	 * @var array
+	 */
+	public $attributeAliases = array(
+		'arenaTeamId' => 'id',
+	);
+
+	/**
 	 * Get the team's captain.
 	 *
 	 * @return  \Anvil\Emulators\Trinity\Cataclysm\Model\Character
@@ -35,9 +44,37 @@ class ArenaTeam extends Model {
 	{
 		$character = new Character;
 
-		$character->setRealm($this->getRealm())
-			->where('guid', $this->attributes['captainGuid'])
-			->first();
+		return $character->setRealm($this->getRealm())
+					->where('guid', $this->attributes['captainGuid'])
+					->first();
+	}
+
+	/**
+	 * Get the arena team's characters.
+	 *
+	 * @return Illuminate\Support\Collection
+	 */
+	public function getMembersAttribute()
+	{
+		$members = $this->getConnection()
+						->table('arena_team_member')
+						->select('guid')
+						->where('arenaTeamId', $this->attributes['arenaTeamId'])
+						->get();
+
+		$characters = with(new Character)->setRealm($this->getRealm());
+
+		if( ! empty($members))
+		{
+			return $characters->whereIn('guid', array_pluck($members, 'guid'));
+		}
+
+		// If the team has no members, we'll just grap zero characters
+		// from the database.
+		else
+		{
+			return $characters->take(0);
+		}
 	}
 
 	/**
