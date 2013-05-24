@@ -32,6 +32,7 @@ class Realm {
 	 * @var array
 	 */
 	protected $models = array(
+		'arenateam',
 		'character',
 		'guild',
 	);
@@ -61,6 +62,10 @@ class Realm {
 		// to connect to. Let's set the realm's name now.
 		$this->emulator->setRealm($this->name);
 
+		// We need to lowercase the model's name as the method
+		// may be camel-cased.
+		$method = strtolower($method);
+
 		// If the method name begins with "method" then we
 		// want to create a new record. For this we need a
 		// fresh Eloquent model.
@@ -68,9 +73,8 @@ class Realm {
 		{
 			// The model's name will be the second word in the
 			// method's name. So, let's get rid of the create
-			// prefix. Also, we need to lowercase the model's name
-			// as the method may be camel-cased.
-			$model = strtolower(substr($method, 6));
+			// prefix.
+			$model = substr($method, 6);
 
 			if(in_array($model, $this->models))
 			{

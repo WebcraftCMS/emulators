@@ -1,4 +1,4 @@
-<?php namespace Anvil\Emulators\Trinity\Cataclysm;
+<?php namespace Anvil\Emulators\Trinity\Cataclysm\Model;
 
 use Anvil\Emulators\Eloquent\Model;
 use Anvil\Emulators\Eloquent\Builder as Query;
