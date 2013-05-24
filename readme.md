@@ -22,4 +22,4 @@ Emulator is an emulator-agnostic library. For more information, please read the 
 
 Emulator was written by the Webcraft CMS team. Emulator is released under the 2-clause BSD License. See the LICENSE file for details.
 
-Copyright 2013 Webcraft CMS
+Copyright 2013 Forfade
