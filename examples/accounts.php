@@ -14,8 +14,8 @@ $newAccount->save();
 
 // Let's grab the new account from the database:
 $account = $server->account()
-			->where('username', '=', 'foo')
-			->where('email', '=', 'foo@bar.com')
+			->where('username', 'foo')
+			->where('email', 'foo@bar.com')
 			->first();
 
 

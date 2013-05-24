@@ -38,8 +38,7 @@ $character->save();
 
 // Now that the character is in the database, let's get it.
 $character = $netherstorm->character()
-				->where('name', '=', 'Foo')
-				->where('id', '=', 0)
+				->where('name', 'Foo')
 				->first();
 
 // Now that the user exists, we can make it join a guild.
@@ -52,9 +51,6 @@ echo $character->id;
 echo $character->name;
 echo $character->race;
 
-var_dump($character->isOnline);
-var_dump($character->isOffline);
-
 // We can also look at the character's account. To find out more about
 // the guild model, look at the accounts example.
 echo $character->account->email;
@@ -62,6 +58,12 @@ echo $character->account->email;
 // We can also look at the character's guild. To find out more about
 // the guild model, look at the guilds example.
 echo $character->guild->name;
+
+// Or, we can look at the character's arena teams.
+foreach($character->arenaTeams->get() as $arenaTeam)
+{
+	echo $arenaTeam->name;
+}
 
 // We can change the character's information.
 $character->name = 'Fooz';

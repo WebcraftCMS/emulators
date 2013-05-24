@@ -25,7 +25,7 @@ $firstCharacter->save();
 
 // Let's find our new guild in the database.
 $guild = $netherstorm->guild()
-			->where('name', '=', 'My Guild')
+			->where('name', 'My Guild')
 			->first();
 
 // Let's get the guild's name.
