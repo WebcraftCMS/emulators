@@ -17,6 +17,9 @@ class Emulator extends AnvilEmulator {
 			case 'account':
 				return new Model\Account($attributes);
 
+			case 'arenateam':
+				return new Model\ArenaTeam($attributes);
+
 			case 'character':
 				return new Model\Character($attributes);
 

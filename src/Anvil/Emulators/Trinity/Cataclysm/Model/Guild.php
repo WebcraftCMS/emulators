@@ -1,6 +1,7 @@
 <?php namespace Anvil\Emulators\Trinity\Cataclysm\Model;
 
-use Anvil\Emulators\Model\Model;
+use Anvil\Emulators\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder as Query;
 
 class Guild extends Model {
 
@@ -26,11 +27,14 @@ class Guild extends Model {
 	protected $primaryKey = 'guildid';
 
 	/**
-	 * Indicates if the model should be timestamped.
+	 * The aliases for attributes.
 	 *
-	 * @var bool
+	 * @var array
 	 */
-	public $timestamps = false;
+	public $attributeAliases = array(
+
+		'guildid' => 'id',
+	);
 
 	/**
 	 * Select a guild by ID.
@@ -42,27 +46,6 @@ class Guild extends Model {
 	public function scopeWhereId(Query $query, $id)
 	{
 		return $query->where('guildid', '=', $id);
-	}
-
-	/**
-	 * Set a guild's ID.
-	 *
-	 * @param  int  $id
-	 * @return bool
-	 */
-	public function setIdAttribute($id)
-	{
-		$this->attributes['guildid'] = $id;
-	}
-
-	/**
-	 * Get a guild's ID.
-	 *
-	 * @return bool
-	 */
-	public function getIdAttribute()
-	{
-		return $this->attributes['guildid'];
 	}
 
 	/**
@@ -99,7 +82,7 @@ class Guild extends Model {
 	 *
 	 * @return Illuminate\Support\Collection
 	 */
-	public function getCharactersAttributes()
+	public function getMembersAttribute()
 	{
 		$members = $this->getConnection()
 						->table('guild_member')
@@ -109,8 +92,7 @@ class Guild extends Model {
 
 		$characters = new Character;
 
-		return $character->setRealm($this->getRealm())
-				->whereIn('guid', array_pluck($characters, 'guid'))
-				->get();
+		return $characters->setRealm($this->getRealm())
+				->whereIn('guid', array_pluck($members, 'guid'));
 	}
 }

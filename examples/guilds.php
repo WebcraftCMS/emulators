@@ -25,8 +25,20 @@ $firstCharacter->save();
 
 // Let's find our new guild in the database.
 $guild = $netherstorm->guild()
-			->whereName('My Guild')
+			->where('name', '=', 'My Guild')
 			->first();
+
+// Let's get the guild's name.
+echo $guild->name;
+
+// Let's get the guild's leader and display his name.
+echo $guild->leader->name;
+
+// Let's get the name of each of the guild's members.
+foreach($guild->members->get() as $member)
+{
+	echo $member->name;
+}
 
 // Now that we're done let's delete the guild.
 $guild->delete();

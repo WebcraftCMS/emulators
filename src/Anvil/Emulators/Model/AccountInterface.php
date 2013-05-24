@@ -18,7 +18,7 @@ interface AccountInterface {
 	 * @param  bool  $online
 	 * @return \Illuminate\Database\Eloquent\Builder
 	 */
-	public function scopeWhereIsOnline(Query $query, $online = true);
+	//public function scopeWhereIsOnline(Query $query, $online = true);
 
 	/**
 	 * Get an account that is offline.
@@ -26,7 +26,7 @@ interface AccountInterface {
 	 * @param  \Illuminate\Database\Eloquent\Builder  $query
 	 * @return \Illuminate\Database\Eloquent\Builder
 	 */
-	public function scopeWhereIsOffline(Query $query);
+	//public function scopeWhereIsOffline(Query $query);
 
 	/**
 	 * Ban the account.

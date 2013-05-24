@@ -1,7 +1,7 @@
 <?php namespace Anvil\Emulators\Trinity\Cataclysm\Model;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder as Query;
+use Anvil\Emulators\Eloquent\Model;
+use Anvil\Emulators\Eloquent\Builder as Query;
 
 use Anvil\Emulators\Model\AccountInterface;
 
@@ -22,11 +22,15 @@ class Account extends Model implements AccountInterface {
 	protected $table = 'account';
 
 	/**
-	 * Indicates if the model should be timestamped.
+	 * The aliases for attributes.
 	 *
-	 * @var bool
+	 * @var array
 	 */
-	public $timestamps = false;
+	public $attributeAliases = array(
+
+		'ipAddress' => 'last_ip',
+		'online' => 'isOnline',
+	);
 
 	/**
 	 * Set the password attribute.
@@ -68,48 +72,13 @@ class Account extends Model implements AccountInterface {
 	}
 
 	/**
-	 * Set the account's IP address.
+	 * Check if an account is online.
 	 *
-	 * @param  string  $ipAddress
-	 * @return void
+	 * @return bool
 	 */
-	public function setIpAddressAttribute($ipAddress)
+	public function getOnlineAttribute()
 	{
-		$this->attributes['last_ip'] = $ipAddress;
-	}
-
-	/**
-	 * Get an account with a specific IP address.
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Builder  $query
-	 * @param  string  $ipAddress
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeWhereIpAddress($query, $ipAddress)
-	{
-		return $query->where('last_ip', $ipAddress);
-	}
-
-	/**
-	 * Get the account's IP address.
-	 *
-	 * @return string
-	 */
-	public function getIpAddressAttribute()
-	{
-		return $this->attributes['last_ip'];
-	}
-
-	/**
-	 * Get an account that is online.
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Builder  $query
-	 * @param  bool  $online
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeWhereIsOnline(Query $query, $online = true)
-	{
-		return $query->where('online', '=', $online ? 1 : 0);
+		return $this->attributes['online'] == 1;
 	}
 
 	/**
@@ -125,23 +94,13 @@ class Account extends Model implements AccountInterface {
 	}
 
 	/**
-	 * Check if an account is online.
-	 *
-	 * @return bool
-	 */
-	public function getIsOnlineAttribute()
-	{
-		return $this->attributes['online'] == true;
-	}
-
-	/**
 	 * Check if an account is offline.
 	 *
 	 * @return bool
 	 */
 	public function getIsOfflineAttribute()
 	{
-		return $this->attributes['online'] == false;
+		return ! $this->getOnlineAttribute();
 	}
 
 	/**

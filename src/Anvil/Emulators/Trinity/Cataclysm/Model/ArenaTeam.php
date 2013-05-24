@@ -1,7 +1,6 @@
 <?php namespace Anvil\Emulators\Trinity\Cataclysm;
 
-use Anvil\Emulators\Model\Model;
-use Illuminate\Database\Eloquent\Builder as Query;
+use Anvil\Emulators\Eloquent\Model;
 
 class ArenaTeam extends Model {
 

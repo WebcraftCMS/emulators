@@ -1,6 +1,6 @@
 <?php namespace Anvil\Emulators\Trinity\Cataclysm\Model;
 
-use Anvil\Emulators\Model\Model;
+use Anvil\Emulators\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder as Query;
 
 use Anvil\Emulators\Model\CharacterInterface;
@@ -29,11 +29,16 @@ class Character extends Model implements CharacterInterface {
 	protected $primaryKey = 'guid';
 
 	/**
-	 * Indicates if the model should be timestamped.
+	 * The aliases for attributes.
 	 *
-	 * @var bool
+	 * @var array
 	 */
-	public $timestamps = false;
+	public $attributeAliases = array(
+
+		'guid' => 'id',
+		'account' => 'accountId',
+		'online' => 'isOnline',
+	);
 
 	/**
 	 * Boot the model.
@@ -50,72 +55,6 @@ class Character extends Model implements CharacterInterface {
 		{
 			$user->leaveGuild();
 		});
-	}
-
-	/**
-	 * Select a character by ID.
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Builder  $query
-	 * @param  int  $id
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeWhereId(Query $query, $id)
-	{
-		return $query->where('guid', '=', $id);
-	}
-
-	/**
-	 * Set a character's ID.
-	 *
-	 * @param  int  $id
-	 * @return bool
-	 */
-	public function setIdAttribute($id)
-	{
-		$this->attributes['guid'] = $id;
-	}
-
-	/**
-	 * Get a character's ID.
-	 *
-	 * @return bool
-	 */
-	public function getIdAttribute()
-	{
-		return $this->attributes['guid'];
-	}
-
-	/**
-	 * Select a character by account ID.
-	 *
-	 * @param  \Illuminate\Database\Eloquent\Builder  $query
-	 * @param  int  $id
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeWhereAccountId(Query $query, $id)
-	{
-		return $query->where('account', '=', $id);
-	}
-
-	/**
-	 * Set a character's account ID.
-	 *
-	 * @param  int  $id
-	 * @return bool
-	 */
-	public function setAccountIdAttribute($id)
-	{
-		$this->attributes['account'] = $id;
-	}
-
-	/**
-	 * Get a character's account ID.
-	 *
-	 * @return bool
-	 */
-	public function getAccountIdAttribute()
-	{
-		return $this->attributes['account'];
 	}
 
 	/**
@@ -156,16 +95,6 @@ class Character extends Model implements CharacterInterface {
 	public function scopeOnline(Query $query, $online = true)
 	{
 		return $query->where('online', '=', $online ? 1 : 0);
-	}
-
-	/**
-	 * Check if an account is online.
-	 *
-	 * @return bool
-	 */
-	public function getIsOnlineAttribute()
-	{
-		return $this->attributes['online'] == true;
 	}
 
 	/**
