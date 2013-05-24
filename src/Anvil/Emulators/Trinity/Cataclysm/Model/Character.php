@@ -281,4 +281,25 @@ class Character extends Model implements CharacterInterface {
 
 		return $this;
 	}
+
+	/**
+	 * Get the character's arena teams.
+	 *
+	 * @return \Anvil\Emulators\Eloquent\Builder
+	 */
+	public function getArenaTeamsAttribute()
+	{
+		$arenaTeams = $this->getConnection()
+						->table('arena_team_member')
+						->where('guid', $this->attributes['guid'])
+						->select('arenaTeamId')
+						->get();
+
+		$arenaTeams = array_pluck($arenaTeams, 'arenaTeamId');
+
+		$teams = new ArenaTeam;
+
+		return $teams->setRealm($this->getRealm())
+					->whereIn('arenaTeamId', $arenaTeams);
+	}
 }
